@@ -1,0 +1,63 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+:root {
+  --white-square: rgb(238, 238, 210);
+  --black-square: rgb(118, 150, 86);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+}
+
+.square {
+  padding: 8px;
+  position: relative;
+}
+
+.square.highlighted::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+  background-color: rgba(100, 100, 100, 0.5);
+  border-radius: 50%;
+}
+
+.piece {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.piece img {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.number-icon {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.char-icon {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+}
