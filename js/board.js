@@ -111,8 +111,13 @@ export class Board {
                     square.appendChild(before);
                 }
                 if (piece !== null) {
-                    if (piece instanceof King && piece.isChecked()) {
-                        piece.elem.classList.add("checked");
+                    if (piece instanceof King) {
+                        if (piece.isChecked().length) {
+                            piece.elem.classList.add("checked");
+                        }
+                        else {
+                            piece.elem.classList.remove("checked");
+                        }
                     }
                     square.appendChild(piece.elem);
                 }

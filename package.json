@@ -2,7 +2,8 @@
   "name": "chess_js",
   "version": "1.0.0",
   "scripts": {
-    "start": "npx live-server ."
+    "start": "npx live-server .",
+    "build": "npx tsc && npx webpack"
   },
   "author": "",
   "license": "ISC",
