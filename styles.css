@@ -10,12 +10,21 @@
 :root {
   --white-square: rgb(238, 238, 210);
   --black-square: rgb(118, 150, 86);
+  --square-size: 60px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 .board {
   display: grid;
-  grid-template-columns: repeat(8, 60px);
-  grid-template-rows: repeat(8, 60px);
+  grid-template-columns: repeat(8, var(--square-size));
+  grid-template-rows: repeat(8, var(--square-size));
 }
 
 .square {
@@ -26,10 +35,10 @@
 .square.highlighted::before {
   content: "";
   position: absolute;
-  top: calc(50% - 10px);
-  left: calc(50% - 10px);
-  width: 20px;
-  height: 20px;
+  top: calc(50% - var(--square-size) / 6);
+  left: calc(50% - var(--square-size) / 6);
+  width: calc(var(--square-size) / 3);
+  height: calc(var(--square-size) / 3);
   background-color: rgba(100, 100, 100, 0.5);
   border-radius: 50%;
 }
@@ -41,6 +50,7 @@
   height: 100%;
   user-select: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent; /* https://stackoverflow.com/questions/45049873/how-to-remove-the-blue-highlight-of-button-on-mobile */
 }
 
 .piece img {
@@ -55,9 +65,26 @@
   top: 2px;
   left: 2px;
 }
-
 .char-icon {
   position: absolute;
   bottom: 2px;
   right: 2px;
+}
+
+@media only screen and (max-width: 500px) {
+  * {
+    font-size: small;
+  }
+  :root {
+    --square-size: 45px;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  * {
+    font-size: x-small;
+  }
+  :root {
+    --square-size: 35px;
+  }
 }
