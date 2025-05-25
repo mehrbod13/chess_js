@@ -1,7 +1,7 @@
-import { Piece } from "./piece.js";
-import { Board } from "./board.js";
-import { Move } from "./move.js";
-import { Rook } from "./rook.js";
+import { Piece } from "./piece";
+import { Board } from "./board";
+import { Move } from "./move";
+import { Rook } from "./rook";
 
 export class King extends Piece {
   constructor(

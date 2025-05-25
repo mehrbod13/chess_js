@@ -1,11 +1,12 @@
-import { Game } from "./game.js";
-import { Piece } from "./piece.js";
-import { King } from "./king.js";
-import { Rook } from "./rook.js";
-import { Knight } from "./knight.js";
-import { Bishop } from "./bishop.js";
-import { Queen } from "./queen.js";
-import { Pawn } from "./pawn.js";
+import { Game } from "./game";
+import { Piece } from "./piece";
+import { King } from "./king";
+import { Rook } from "./rook";
+import { Knight } from "./knight";
+import { Bishop } from "./bishop";
+import { Queen } from "./queen";
+import { Pawn } from "./pawn";
+import { Move } from "./move";
 
 export class Board {
   board: (Piece | null)[][];
@@ -13,6 +14,7 @@ export class Board {
   game: Game;
   blackKing: King;
   whiteKing: King;
+  history: Move[];
 
   constructor(game: Game) {
     this.blackKing = new King(Piece.SIDES.BLACK, this, 0, 4);
@@ -20,6 +22,7 @@ export class Board {
     this.board = this.initBoard();
     this.selectedPiece = null;
     this.game = game;
+    this.history = [];
   }
 
   initBoard(): Piece[][] {
@@ -158,19 +161,27 @@ export class Board {
         `.square:nth-child(${move.col * 8 + move.row + 1})`
       );
       if (square) {
-        square?.addEventListener("click", () =>
-          this.moveListener(move.col, move.row)
-        );
+        square?.addEventListener("click", () => this.moveListener(move));
       }
     }
   }
 
-  moveListener(col: number, row: number) {
+  moveListener(move: Move) {
     if (this.selectedPiece !== null) {
-      if (this.selectedPiece.move(col, row)) {
+      let prevRow = this.selectedPiece.row;
+      if (this.selectedPiece.move(move.col, move.row)) {
+        for (let target of move.piece.getMoves()) {
+          if (target.square instanceof King) {
+            move.isCheck = true;
+            break;
+          }
+        }
+
+        this.history.push(move);
         if (!this.selectedPiece.isMoved) {
           this.selectedPiece.isMoved = true;
         }
+        this.selectedPiece = null;
         this.game.drawBoard();
         this.game.reverseTurn();
       }

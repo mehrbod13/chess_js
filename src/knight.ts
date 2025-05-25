@@ -1,6 +1,6 @@
-import { Piece } from "./piece.js";
-import { Board } from "./board.js";
-import { Move } from "./move.js";
+import { Piece } from "./piece";
+import { Board } from "./board";
+import { Move } from "./move";
 
 export class Knight extends Piece {
   constructor(

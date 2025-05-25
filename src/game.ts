@@ -1,5 +1,5 @@
-import { Board } from "./board.js";
-import { Piece } from "./piece.js";
+import { Board } from "./board";
+import { Piece } from "./piece";
 
 export class Game {
   pieces: Piece[];
@@ -26,5 +26,15 @@ export class Game {
   drawBoard() {
     this.elem.innerHTML = "";
     this.elem.appendChild(this.board.getElement());
+
+    let historyElem = document.createElement("div");
+    historyElem.classList.add("history");
+    for (let i = 0; i < this.board.history.length; ++i) {
+      let move = this.board.history[i];
+      let notationElem = document.createElement("div");
+      notationElem.innerHTML = `${i + 1}.${move.getNotation()}`;
+      historyElem.appendChild(notationElem);
+    }
+    this.elem.appendChild(historyElem);
   }
 }

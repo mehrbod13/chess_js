@@ -1,5 +1,5 @@
-import { Board } from "./board.js";
-import { Move } from "./move.js";
+import { Board } from "./board";
+import { Move } from "./move";
 
 export class Piece {
   static SIDES = {
