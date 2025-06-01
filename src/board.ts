@@ -168,7 +168,6 @@ export class Board {
 
   moveListener(move: Move) {
     if (this.selectedPiece !== null) {
-      let prevRow = this.selectedPiece.row;
       if (this.selectedPiece.move(move.col, move.row)) {
         for (let target of move.piece.getMoves()) {
           if (target.square instanceof King) {

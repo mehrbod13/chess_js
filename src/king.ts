@@ -33,37 +33,39 @@ export class King extends Piece {
       }
     }
 
-    // right castle
-    if (!this.isMoved) {
-      let isEmpty = true;
-      for (let i = 1; i <= 2; ++i) {
-        let piece = this.board.getSquare(this.col, this.row + i);
-        if (piece !== null) {
-          isEmpty = false;
-          break;
+    if (!this.isChecked().length) {
+      // right castle
+      if (!this.isMoved) {
+        let isEmpty = true;
+        for (let i = 1; i <= 2; ++i) {
+          let piece = this.board.getSquare(this.col, this.row + i);
+          if (piece !== null) {
+            isEmpty = false;
+            break;
+          }
+        }
+
+        let rook = this.board.getSquare(this.col, this.row + 3);
+        if (isEmpty && rook && rook instanceof Rook && !rook.isMoved) {
+          moves.push(new Move(this, this.col, this.row + 2, rook, true));
         }
       }
 
-      let rook = this.board.getSquare(this.col, this.row + 3);
-      if (isEmpty && rook && rook instanceof Rook && !rook.isMoved) {
-        moves.push(new Move(this, this.col, this.row + 2, rook, true));
-      }
-    }
-
-    // left castle
-    if (!this.isMoved) {
-      let isEmpty = true;
-      for (let i = 1; i <= 3; ++i) {
-        let piece = this.board.getSquare(this.col, this.row - i);
-        if (piece !== null) {
-          isEmpty = false;
-          break;
+      // left castle
+      if (!this.isMoved) {
+        let isEmpty = true;
+        for (let i = 1; i <= 3; ++i) {
+          let piece = this.board.getSquare(this.col, this.row - i);
+          if (piece !== null) {
+            isEmpty = false;
+            break;
+          }
         }
-      }
 
-      let rook = this.board.getSquare(this.col, this.row - 4);
-      if (isEmpty && rook && rook instanceof Rook && !rook.isMoved) {
-        moves.push(new Move(this, this.col, this.row - 2, rook, true));
+        let rook = this.board.getSquare(this.col, this.row - 4);
+        if (isEmpty && rook && rook instanceof Rook && !rook.isMoved) {
+          moves.push(new Move(this, this.col, this.row - 2, rook, true));
+        }
       }
     }
 
@@ -75,7 +77,7 @@ export class King extends Piece {
     for (let i = 0; i < 8; ++i) {
       for (let j = 0; j < 8; ++j) {
         let piece = this.board.getSquare(i, j);
-        if (piece && piece.side !== this.side) {
+        if (piece && piece.side !== this.side && !(piece instanceof King)) {
           for (let move of piece.getMoves()) {
             if (move.square === this) {
               pieces.push(piece);

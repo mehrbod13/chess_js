@@ -68,6 +68,7 @@ export class Piece {
   move(col: number, row: number): boolean {
     for (let move of this.getValidMoves()) {
       if (col === move.col && row === move.row) {
+        // move rook if castle
         if (move.isCastle) {
           if (move.row === 6) {
             move.square?.move(move.col, 5);
@@ -95,12 +96,12 @@ export class Piece {
         : this.board.blackKing;
 
     this.board.board[this.col][this.row] = null;
-    let chache = this.board.board[move.col][move.row];
+    let cache = this.board.board[move.col][move.row];
     this.board.board[move.col][move.row] = this;
 
     let res = king.isChecked().length === 0;
     this.board.board[this.col][this.row] = this;
-    this.board.board[move.col][move.row] = chache;
+    this.board.board[move.col][move.row] = cache;
     return res;
   }
 }
