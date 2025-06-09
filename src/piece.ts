@@ -1,5 +1,6 @@
 import { Board } from "./board";
 import { Move } from "./move";
+import { promotionMenu } from "./promotionMenu";
 
 export class Piece {
   static SIDES = {
@@ -16,6 +17,13 @@ export class Piece {
     KING: "King",
   } as const;
 
+  static getAssest(
+    type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE],
+    side: (typeof Piece.SIDES)[keyof typeof Piece.SIDES]
+  ): string {
+    return `./assets/${type}-${side}.svg`;
+  }
+
   type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE];
   side: (typeof Piece.SIDES)[keyof typeof Piece.SIDES];
   board: Board;
@@ -28,29 +36,26 @@ export class Piece {
     type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE],
     side: (typeof Piece.SIDES)[keyof typeof Piece.SIDES],
     board: Board,
-    col: number,
-    row: number
+    row: number,
+    col: number
   ) {
     this.type = type;
     this.side = side;
     this.board = board;
-    this.col = col;
     this.row = row;
+    this.col = col;
     this.elem = this.getElement();
+    this.registerHandler();
 
     // move flag needed for some pieces (pawn,king,rook)
     this.isMoved = false;
-  }
-
-  getAssest() {
-    return `./assets/${this.type}-${this.side}.svg`;
   }
 
   getElement() {
     let element = document.createElement("div");
     element.classList.add("piece");
     let image = document.createElement("img");
-    image.setAttribute("src", this.getAssest());
+    image.setAttribute("src", Piece.getAssest(this.type, this.side));
     element.appendChild(image);
     return element;
   }
@@ -65,22 +70,29 @@ export class Piece {
     );
   }
 
-  move(col: number, row: number): boolean {
+  move(row: number, col: number): boolean {
     for (let move of this.getValidMoves()) {
       if (col === move.col && row === move.row) {
         // move rook if castle
         if (move.isCastle) {
-          if (move.row === 6) {
-            move.square?.move(move.col, 5);
-          } else if (move.row === 2) {
-            move.square?.move(move.col, 3);
+          if (move.col === 6) {
+            move.square?.move(move.row, 5);
+          } else if (move.col === 2) {
+            move.square?.move(move.row, 3);
           }
         }
 
-        this.board.board[this.col][this.row] = null;
-        this.board.board[col][row] = this;
+        this.board.board[this.row][this.col] = null;
+        this.board.board[row][col] = this;
         this.col = col;
         this.row = row;
+
+        // pawn promotion
+        if (this.type === Piece.TYPE.PAWN && move.isPromotion) {
+          let promo = new promotionMenu(this);
+          this.elem.appendChild(promo.getElement());
+          this.board.isolated = true;
+        }
 
         return true;
       }
@@ -95,13 +107,19 @@ export class Piece {
         ? this.board.whiteKing
         : this.board.blackKing;
 
-    this.board.board[this.col][this.row] = null;
-    let cache = this.board.board[move.col][move.row];
-    this.board.board[move.col][move.row] = this;
+    this.board.board[this.row][this.col] = null;
+    let cache = this.board.board[move.row][move.col];
+    this.board.board[move.row][move.col] = this;
 
     let res = king.isChecked().length === 0;
-    this.board.board[this.col][this.row] = this;
-    this.board.board[move.col][move.row] = cache;
+    this.board.board[this.row][this.col] = this;
+    this.board.board[move.row][move.col] = cache;
     return res;
+  }
+
+  registerHandler() {
+    this.elem.addEventListener("click", () => {
+      this.board.selectPiece(this);
+    });
   }
 }

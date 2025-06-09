@@ -6,19 +6,19 @@ export class Bishop extends Piece {
   constructor(
     side: (typeof Piece.SIDES)[keyof typeof Piece.SIDES],
     board: Board,
-    col: number,
-    row: number
+    row: number,
+    col: number
   ) {
-    super(Piece.TYPE.BISHOP, side, board, col, row);
+    super(Piece.TYPE.BISHOP, side, board, row, col);
   }
 
   override getMoves(): Move[] {
     let moves: Move[] = [];
     for (let i = 1; i < 8; ++i) {
-      let y = this.col + i;
-      let x = this.row + i;
+      let y = this.row + i;
+      let x = this.col + i;
       if (y > 7 || x > 7) break;
-      let piece = this.board.getSquare(y, x);
+      let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
           moves.push(new Move(this, y, x, piece));
@@ -28,10 +28,10 @@ export class Bishop extends Piece {
       moves.push(new Move(this, y, x, piece));
     }
     for (let i = 1; i < 8; ++i) {
-      let y = this.col - i;
-      let x = this.row - i;
+      let y = this.row - i;
+      let x = this.col - i;
       if (y < 0 || x < 0) break;
-      let piece = this.board.getSquare(y, x);
+      let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
           moves.push(new Move(this, y, x, piece));
@@ -41,10 +41,10 @@ export class Bishop extends Piece {
       moves.push(new Move(this, y, x, piece));
     }
     for (let i = 1; i < 8; ++i) {
-      let y = this.col - i;
-      let x = this.row + i;
+      let y = this.row - i;
+      let x = this.col + i;
       if (y < 0 || x > 7) break;
-      let piece = this.board.getSquare(y, x);
+      let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
           moves.push(new Move(this, y, x, piece));
@@ -54,10 +54,10 @@ export class Bishop extends Piece {
       moves.push(new Move(this, y, x, piece));
     }
     for (let i = 1; i < 8; ++i) {
-      let y = this.col + i;
-      let x = this.row - i;
+      let y = this.row + i;
+      let x = this.col - i;
       if (y > 7 || x < 0) break;
-      let piece = this.board.getSquare(y, x);
+      let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
           moves.push(new Move(this, y, x, piece));

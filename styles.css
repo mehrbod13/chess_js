@@ -49,9 +49,11 @@ body {
   height: calc(var(--square-size) / 3);
   background-color: rgba(100, 100, 100, 0.5);
   border-radius: 50%;
+  z-index: 50;
 }
 
 .piece {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,6 +97,26 @@ body {
   width: fit-content;
   height: 100px;
   overflow-y: scroll;
+}
+
+.promo {
+  position: absolute;
+  display: flex;
+  gap: 0.8rem;
+  width: 400%;
+  height: 100%;
+}
+
+.piece:has(.promo) {
+  cursor: unset;
+}
+
+.piece .promo .option {
+  cursor: pointer;
+}
+
+.promo .option:hover {
+  scale: 1.2;
 }
 
 @media only screen and (max-width: 1000px) {

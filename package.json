@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npx live-server .",
+    "dev": "npx tsc && npx live-server .",
     "build": "npx webpack"
   },
   "author": "",

@@ -9,26 +9,29 @@ export class Move {
   square: Piece | null;
   isCastle: boolean;
   isCheck: boolean;
+  isPromotion: boolean;
 
   constructor(
     piece: Piece,
-    col: number,
     row: number,
+    col: number,
     square: Piece | null,
     isCastle = false,
-    isCheck = false
+    isCheck = false,
+    isPromotion = false
   ) {
     this.piece = piece;
-    this.col = col;
     this.row = row;
+    this.col = col;
     this.square = square;
     this.isCastle = isCastle;
     this.isCheck = isCheck;
+    this.isPromotion = isPromotion;
   }
 
   getNotation(): string {
     if (this.isCastle) {
-      if (this.row === 6) {
+      if (this.col === 6) {
         return "O-O";
       } else return "O-O-O";
     }
@@ -45,13 +48,13 @@ export class Move {
 
     if (this.square !== null) {
       if (this.piece instanceof Pawn) {
-        notation += String.fromCharCode(97 + this.piece.row);
+        notation += String.fromCharCode(97 + this.piece.col);
       }
       notation += "x";
     }
 
-    notation += String.fromCharCode(97 + this.row);
-    notation += 8 - this.col;
+    notation += String.fromCharCode(97 + this.col);
+    notation += 8 - this.row;
 
     if (this.isCheck) {
       notation += "+";

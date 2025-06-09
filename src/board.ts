@@ -15,6 +15,7 @@ export class Board {
   blackKing: King;
   whiteKing: King;
   history: Move[];
+  isolated: boolean;
 
   constructor(game: Game) {
     this.blackKing = new King(Piece.SIDES.BLACK, this, 0, 4);
@@ -23,6 +24,7 @@ export class Board {
     this.selectedPiece = null;
     this.game = game;
     this.history = [];
+    this.isolated = false;
   }
 
   initBoard(): Piece[][] {
@@ -74,21 +76,12 @@ export class Board {
     ] as Piece[][];
   }
 
-  registerHandlers() {
-    for (let i = 0; i < 8; ++i) {
-      for (let j = 0; j < 8; ++j) {
-        let piece = this.getSquare(i, j);
-        if (piece !== null) {
-          piece.elem.addEventListener("click", () => {
-            this.selectPiece(piece);
-          });
-        }
-      }
-    }
+  getPieceAt(row: number, col: number): Piece | null {
+    return this.board[row][col];
   }
 
-  getSquare(col: number, row: number): Piece | null {
-    return this.board[col][row];
+  getSquare(row: number, col: number): Element | null {
+    return document.querySelector(`.square:nth-child(${row * 8 + col + 1})`);
   }
 
   getElement() {
@@ -97,7 +90,7 @@ export class Board {
     let isWhite = true;
     for (let i = 0; i < 8; ++i) {
       for (let j = 0; j < 8; ++j) {
-        let piece = this.getSquare(i, j);
+        let piece = this.getPieceAt(i, j);
         if (j !== 0) {
           isWhite = !isWhite;
         }
@@ -145,7 +138,7 @@ export class Board {
 
   selectPiece(piece: Piece) {
     // validate turn
-    if (this.game.turn !== piece.side) {
+    if (this.game.turn !== piece.side || this.isolated) {
       return;
     }
 
@@ -156,10 +149,8 @@ export class Board {
 
     this.selectedPiece = piece;
     for (let move of piece.getValidMoves()) {
-      this.highlightSquare(move.col, move.row);
-      let square = document.querySelector(
-        `.square:nth-child(${move.col * 8 + move.row + 1})`
-      );
+      this.highlightSquare(move.row, move.col);
+      let square = this.getSquare(move.row, move.col);
       if (square) {
         square?.addEventListener("click", () => this.moveListener(move));
       }
@@ -168,7 +159,7 @@ export class Board {
 
   moveListener(move: Move) {
     if (this.selectedPiece !== null) {
-      if (this.selectedPiece.move(move.col, move.row)) {
+      if (this.selectedPiece.move(move.row, move.col)) {
         for (let target of move.piece.getMoves()) {
           if (target.square instanceof King) {
             move.isCheck = true;
@@ -182,15 +173,16 @@ export class Board {
         }
         this.selectedPiece = null;
         this.game.drawBoard();
-        this.game.reverseTurn();
+
+        if (!move.isPromotion) {
+          this.game.reverseTurn();
+        }
       }
     }
   }
 
-  highlightSquare(col: number, row: number) {
-    let square = document.querySelector(
-      `.square:nth-child(${col * 8 + row + 1})`
-    );
+  highlightSquare(row: number, col: number) {
+    let square = this.getSquare(row, col);
     square?.classList.add("highlighted");
   }
 }

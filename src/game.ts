@@ -11,7 +11,6 @@ export class Game {
     this.elem = gameElem;
     this.pieces = [];
     this.board = new Board(this);
-    this.board.registerHandlers();
     this.turn = Piece.SIDES.WHITE;
   }
 
