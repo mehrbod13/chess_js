@@ -2,10 +2,15 @@ import { Knight } from "./knight";
 import { Pawn } from "./pawn";
 import { Piece } from "./piece";
 
+interface position {
+  row: number;
+  col: number;
+}
+
 export class Move {
   piece: Piece;
-  col: number;
-  row: number;
+  from: position;
+  to: position;
   square: Piece | null;
   isCastle: boolean;
   isCheck: boolean;
@@ -13,16 +18,16 @@ export class Move {
 
   constructor(
     piece: Piece,
-    row: number,
-    col: number,
+    from: [number, number],
+    to: [number, number],
     square: Piece | null,
     isCastle = false,
     isCheck = false,
     isPromotion = false
   ) {
     this.piece = piece;
-    this.row = row;
-    this.col = col;
+    this.from = { row: from[0], col: from[1] };
+    this.to = { row: to[0], col: to[1] };
     this.square = square;
     this.isCastle = isCastle;
     this.isCheck = isCheck;
@@ -31,7 +36,7 @@ export class Move {
 
   getNotation(): string {
     if (this.isCastle) {
-      if (this.col === 6) {
+      if (this.to.col === 6) {
         return "O-O";
       } else return "O-O-O";
     }
@@ -48,13 +53,13 @@ export class Move {
 
     if (this.square !== null) {
       if (this.piece instanceof Pawn) {
-        notation += String.fromCharCode(97 + this.piece.col);
+        notation += String.fromCharCode(97 + this.from.col);
       }
       notation += "x";
     }
 
-    notation += String.fromCharCode(97 + this.col);
-    notation += 8 - this.row;
+    notation += String.fromCharCode(97 + this.to.col);
+    notation += 8 - this.to.row;
 
     if (this.isCheck) {
       notation += "+";

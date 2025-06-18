@@ -51,6 +51,10 @@ export class Piece {
     this.isMoved = false;
   }
 
+  getPosition(): [number, number] {
+    return [this.row, this.col];
+  }
+
   getElement() {
     let element = document.createElement("div");
     element.classList.add("piece");
@@ -72,13 +76,13 @@ export class Piece {
 
   move(row: number, col: number): boolean {
     for (let move of this.getValidMoves()) {
-      if (col === move.col && row === move.row) {
+      if (col === move.to.col && row === move.to.row) {
         // move rook if castle
         if (move.isCastle) {
-          if (move.col === 6) {
-            move.square?.move(move.row, 5);
-          } else if (move.col === 2) {
-            move.square?.move(move.row, 3);
+          if (move.to.col === 6) {
+            move.square?.move(move.to.row, 5);
+          } else if (move.to.col === 2) {
+            move.square?.move(move.to.row, 3);
           }
         }
 
@@ -108,12 +112,12 @@ export class Piece {
         : this.board.blackKing;
 
     this.board.board[this.row][this.col] = null;
-    let cache = this.board.board[move.row][move.col];
-    this.board.board[move.row][move.col] = this;
+    let cache = this.board.board[move.to.row][move.to.col];
+    this.board.board[move.to.row][move.to.col] = this;
 
     let res = king.isChecked().length === 0;
     this.board.board[this.row][this.col] = this;
-    this.board.board[move.row][move.col] = cache;
+    this.board.board[move.to.row][move.to.col] = cache;
     return res;
   }
 

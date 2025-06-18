@@ -80,7 +80,7 @@ export class Board {
     return this.board[row][col];
   }
 
-  getSquare(row: number, col: number): Element | null {
+  getSquare(row: number, col: number): HTMLElement | null {
     return document.querySelector(`.square:nth-child(${row * 8 + col + 1})`);
   }
 
@@ -96,9 +96,7 @@ export class Board {
         }
         let square = document.createElement("div");
         square.classList.add("square");
-        square.style.backgroundColor = isWhite
-          ? "var(--white-square)"
-          : "var(--black-square)";
+        square.classList.add(isWhite ? "white" : "black");
 
         // draw icons
         if (j == 0) {
@@ -149,8 +147,8 @@ export class Board {
 
     this.selectedPiece = piece;
     for (let move of piece.getValidMoves()) {
-      this.highlightSquare(move.row, move.col);
-      let square = this.getSquare(move.row, move.col);
+      this.highlightSquare(move.to.row, move.to.col);
+      let square = this.getSquare(move.to.row, move.to.col);
       if (square) {
         square?.addEventListener("click", () => this.moveListener(move));
       }
@@ -159,7 +157,7 @@ export class Board {
 
   moveListener(move: Move) {
     if (this.selectedPiece !== null) {
-      if (this.selectedPiece.move(move.row, move.col)) {
+      if (this.selectedPiece.move(move.to.row, move.to.col)) {
         for (let target of move.piece.getMoves()) {
           if (target.square instanceof King) {
             move.isCheck = true;

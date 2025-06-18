@@ -21,7 +21,7 @@ export class Knight extends Piece {
         if (y >= 0 && y <= 7 && x >= 0 && x <= 7) {
           let piece = this.board.getPieceAt(y, x);
           if (piece?.side !== this.side) {
-            moves.push(new Move(this, y, x, piece));
+            moves.push(new Move(this, this.getPosition(), [y, x], piece));
           }
         }
       }
@@ -33,7 +33,7 @@ export class Knight extends Piece {
         if (y >= 0 && y <= 7 && x >= 0 && x <= 7) {
           let piece = this.board.getPieceAt(y, x);
           if (piece?.side !== this.side) {
-            moves.push(new Move(this, y, x, piece));
+            moves.push(new Move(this, this.getPosition(), [y, x], piece));
           }
         }
       }

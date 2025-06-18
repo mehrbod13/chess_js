@@ -1,5 +1,6 @@
 import { Board } from "./board";
 import { Piece } from "./piece";
+import { Move } from "./move";
 
 export class Game {
   pieces: Piece[];
@@ -28,6 +29,19 @@ export class Game {
 
     let historyElem = document.createElement("div");
     historyElem.classList.add("history");
+
+    // highlight last move
+    if (this.board.history.length > 0) {
+      let lastMove: Move = this.board.history[this.board.history.length - 1];
+      this.board
+        .getSquare(lastMove.from.row, lastMove.from.col)!
+        .classList.add("last-move");
+      this.board
+        .getSquare(lastMove.to.row, lastMove.to.col)!
+        .classList.add("last-move");
+    }
+
+    // write game history
     for (let i = 0; i < this.board.history.length; ++i) {
       let move = this.board.history[i];
       let notationElem = document.createElement("div");

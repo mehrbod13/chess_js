@@ -21,11 +21,11 @@ export class Bishop extends Piece {
       let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, y, x, piece));
+          moves.push(new Move(this, this.getPosition(), [y, x], piece));
         }
         break;
       }
-      moves.push(new Move(this, y, x, piece));
+      moves.push(new Move(this, this.getPosition(), [y, x], piece));
     }
     for (let i = 1; i < 8; ++i) {
       let y = this.row - i;
@@ -34,11 +34,11 @@ export class Bishop extends Piece {
       let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, y, x, piece));
+          moves.push(new Move(this, this.getPosition(), [y, x], piece));
         }
         break;
       }
-      moves.push(new Move(this, y, x, piece));
+      moves.push(new Move(this, this.getPosition(), [y, x], piece));
     }
     for (let i = 1; i < 8; ++i) {
       let y = this.row - i;
@@ -47,11 +47,11 @@ export class Bishop extends Piece {
       let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, y, x, piece));
+          moves.push(new Move(this, this.getPosition(), [y, x], piece));
         }
         break;
       }
-      moves.push(new Move(this, y, x, piece));
+      moves.push(new Move(this, this.getPosition(), [y, x], piece));
     }
     for (let i = 1; i < 8; ++i) {
       let y = this.row + i;
@@ -60,11 +60,11 @@ export class Bishop extends Piece {
       let piece = this.board.getPieceAt(y, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, y, x, piece));
+          moves.push(new Move(this, this.getPosition(), [y, x], piece));
         }
         break;
       }
-      moves.push(new Move(this, y, x, piece));
+      moves.push(new Move(this, this.getPosition(), [y, x], piece));
     }
     return moves;
   }

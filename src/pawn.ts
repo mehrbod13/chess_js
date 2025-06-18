@@ -27,7 +27,7 @@ export class Pawn extends Piece {
       if (y >= 0 && y <= 7) {
         let piece = this.board.getPieceAt(y, this.col);
         if (piece === null) {
-          let move = new Move(this, y, this.col, piece);
+          let move = new Move(this, this.getPosition(), [y, this.col], piece);
           move.isPromotion = this.isPromoted(y);
           moves.push(move);
         } else break;
@@ -42,7 +42,7 @@ export class Pawn extends Piece {
       if (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
         let piece = this.board.getPieceAt(y, x);
         if (piece !== null && piece.side !== this.side) {
-          let move = new Move(this, y, x, piece);
+          let move = new Move(this, this.getPosition(), [y, x], piece);
           move.isPromotion = this.isPromoted(y);
           moves.push(move);
         }

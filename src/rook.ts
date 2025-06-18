@@ -20,11 +20,11 @@ export class Rook extends Piece {
       let piece = this.board.getPieceAt(this.row, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, this.row, x, piece));
+          moves.push(new Move(this, this.getPosition(), [this.row, x], piece));
         }
         break;
       }
-      moves.push(new Move(this, this.row, x, piece));
+      moves.push(new Move(this, this.getPosition(), [this.row, x], piece));
     }
     for (let i = 1; i < 8; ++i) {
       let x = this.col - i;
@@ -32,11 +32,11 @@ export class Rook extends Piece {
       let piece = this.board.getPieceAt(this.row, x);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, this.row, x, piece));
+          moves.push(new Move(this, this.getPosition(), [this.row, x], piece));
         }
         break;
       }
-      moves.push(new Move(this, this.row, x, piece));
+      moves.push(new Move(this, this.getPosition(), [this.row, x], piece));
     }
     for (let i = 1; i < 8; ++i) {
       let y = this.row + i;
@@ -44,11 +44,11 @@ export class Rook extends Piece {
       let piece = this.board.getPieceAt(y, this.col);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, y, this.col, piece));
+          moves.push(new Move(this, this.getPosition(), [y, this.col], piece));
         }
         break;
       }
-      moves.push(new Move(this, y, this.col, piece));
+      moves.push(new Move(this, this.getPosition(), [y, this.col], piece));
     }
     for (let i = 1; i < 8; ++i) {
       let y = this.row - i;
@@ -56,11 +56,11 @@ export class Rook extends Piece {
       let piece = this.board.getPieceAt(y, this.col);
       if (piece !== null) {
         if (piece.side !== this.side) {
-          moves.push(new Move(this, y, this.col, piece));
+          moves.push(new Move(this, this.getPosition(), [y, this.col], piece));
         }
         break;
       }
-      moves.push(new Move(this, y, this.col, piece));
+      moves.push(new Move(this, this.getPosition(), [y, this.col], piece));
     }
     return moves;
   }

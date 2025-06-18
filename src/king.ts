@@ -28,7 +28,7 @@ export class King extends Piece {
             continue;
           }
 
-          moves.push(new Move(this, y, x, piece));
+          moves.push(new Move(this, this.getPosition(), [y, x], piece));
         }
       }
     }
@@ -47,7 +47,15 @@ export class King extends Piece {
 
         let rook = this.board.getPieceAt(this.row, this.col + 3);
         if (isEmpty && rook && rook instanceof Rook && !rook.isMoved) {
-          moves.push(new Move(this, this.row, this.col + 2, rook, true));
+          moves.push(
+            new Move(
+              this,
+              this.getPosition(),
+              [this.row, this.col + 2],
+              rook,
+              true
+            )
+          );
         }
       }
 
@@ -64,7 +72,15 @@ export class King extends Piece {
 
         let rook = this.board.getPieceAt(this.row, this.col - 4);
         if (isEmpty && rook && rook instanceof Rook && !rook.isMoved) {
-          moves.push(new Move(this, this.row, this.col - 2, rook, true));
+          moves.push(
+            new Move(
+              this,
+              this.getPosition(),
+              [this.row, this.col - 2],
+              rook,
+              true
+            )
+          );
         }
       }
     }

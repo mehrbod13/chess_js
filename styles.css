@@ -14,6 +14,8 @@
   --black-square: rgb(118, 150, 86);
   --square-size: 60px;
   --check-red: #f08080;
+  --green-highlight: rgba(187, 203, 70);
+  --yellow-highlight: rgba(247, 248, 131);
 }
 
 body {
@@ -117,6 +119,20 @@ body {
 
 .promo .option:hover {
   scale: 1.2;
+}
+
+.square.black {
+  background-color: var(--black-square);
+}
+.square.white {
+  background-color: var(--white-square);
+}
+
+.square.black.last-move {
+  background-color: var(--green-highlight) !important;
+}
+.square.white.last-move {
+  background-color: var(--yellow-highlight) !important;
 }
 
 @media only screen and (max-width: 1000px) {
