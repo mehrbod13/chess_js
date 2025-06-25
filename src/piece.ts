@@ -17,7 +17,7 @@ export class Piece {
     KING: "King",
   } as const;
 
-  static getAssest(
+  static getAsset(
     type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE],
     side: (typeof Piece.SIDES)[keyof typeof Piece.SIDES]
   ): string {
@@ -59,7 +59,7 @@ export class Piece {
     let element = document.createElement("div");
     element.classList.add("piece");
     let image = document.createElement("img");
-    image.setAttribute("src", Piece.getAssest(this.type, this.side));
+    image.setAttribute("src", Piece.getAsset(this.type, this.side));
     element.appendChild(image);
     return element;
   }

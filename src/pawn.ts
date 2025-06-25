@@ -75,7 +75,7 @@ export class Pawn extends Piece {
         promoPiece = new Bishop(this.side, this.board, this.row, this.col);
         break;
       default:
-        console.error("promotion peice type is invalid!");
+        console.error("promotion piece type is invalid!");
         return;
     }
     promoPiece!.isMoved = true;

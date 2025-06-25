@@ -7,6 +7,7 @@ import { Bishop } from "./bishop";
 import { Queen } from "./queen";
 import { Pawn } from "./pawn";
 import { Move } from "./move";
+import { startGame } from "./main";
 
 export class Board {
   board: (Piece | null)[][];
@@ -122,6 +123,20 @@ export class Board {
           if (piece instanceof King) {
             if (piece.isChecked().length) {
               piece.elem.classList.add("checked");
+              if (piece.isCheckmated()) {
+                document.getElementById("checkmate__menu")!.style.display =
+                  "flex";
+
+                document.querySelector(
+                  "#checkmate__menu>.message>.side"
+                )!.innerHTML = this.game.turn;
+
+                document
+                  .querySelector("#restart_button")!
+                  .addEventListener("click", () => {
+                    startGame();
+                  });
+              }
             } else {
               piece.elem.classList.remove("checked");
             }
@@ -156,7 +171,7 @@ export class Board {
   }
 
   moveListener(move: Move) {
-    if (this.selectedPiece !== null) {
+    if (move.piece === this.selectedPiece) {
       if (this.selectedPiece.move(move.to.row, move.to.col)) {
         for (let target of move.piece.getMoves()) {
           if (target.square instanceof King) {

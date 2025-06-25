@@ -104,4 +104,8 @@ export class King extends Piece {
     }
     return pieces;
   }
+
+  isCheckmated(): boolean {
+    return this.isChecked().length > 0 && this.getValidMoves().length === 0;
+  }
 }

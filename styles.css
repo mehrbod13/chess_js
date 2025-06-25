@@ -16,6 +16,8 @@
   --check-red: #f08080;
   --green-highlight: rgba(187, 203, 70);
   --yellow-highlight: rgba(247, 248, 131);
+  --green: rgb(134, 169, 75);
+  --dark-green: rgb(109, 132, 62);
 }
 
 body {
@@ -81,12 +83,14 @@ body {
   top: 2px;
   left: 2px;
   user-select: none;
+  font-weight: 700;
 }
 .char-icon {
   position: absolute;
   bottom: 2px;
   right: 2px;
   user-select: none;
+  font-weight: 700;
 }
 
 .history {
@@ -133,6 +137,33 @@ body {
 }
 .square.white.last-move {
   background-color: var(--yellow-highlight) !important;
+}
+
+#checkmate__menu {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 1rem 2rem;
+  min-height: 60px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.2rem;
+}
+#checkmate__menu .message {
+  display: flex;
+  gap: 10px;
+  font-weight: 700;
+}
+#restart_button {
+  background-color: var(--green);
+  width: fit-content;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.2rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 3px 0px 0px var(--dark-green);
 }
 
 @media only screen and (max-width: 1000px) {

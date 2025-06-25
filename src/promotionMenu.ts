@@ -29,7 +29,7 @@ export class promotionMenu {
       });
 
       let optionImg = document.createElement("img");
-      optionImg.setAttribute("src", Piece.getAssest(option, this.pawn.side));
+      optionImg.setAttribute("src", Piece.getAsset(option, this.pawn.side));
       optionElem.appendChild(optionImg);
       elem.appendChild(optionElem);
     }
