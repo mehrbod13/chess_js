@@ -3,14 +3,26 @@ import { Piece } from "./piece";
 import { Move } from "./move";
 
 export class Game {
-  pieces: Piece[];
+  captures: {
+    [key in (typeof Piece.SIDES)[keyof typeof Piece.SIDES]]: (typeof Piece.TYPE)[keyof typeof Piece.TYPE][];
+  };
+  pieces: {
+    [key in (typeof Piece.SIDES)[keyof typeof Piece.SIDES]]: Piece[];
+  };
   board: Board;
   elem: Element;
   turn: (typeof Piece.SIDES)[keyof typeof Piece.SIDES];
 
   constructor(gameElem: Element) {
     this.elem = gameElem;
-    this.pieces = [];
+    this.captures = {
+      [Piece.SIDES.WHITE]: [],
+      [Piece.SIDES.BLACK]: [],
+    };
+    this.pieces = {
+      [Piece.SIDES.WHITE]: [],
+      [Piece.SIDES.BLACK]: [],
+    };
     this.board = new Board(this);
     this.turn = Piece.SIDES.WHITE;
   }
@@ -24,6 +36,7 @@ export class Game {
   }
 
   drawBoard() {
+    console.log(this.pieces);
     this.elem.innerHTML = "";
     this.elem.appendChild(this.board.getElement());
 

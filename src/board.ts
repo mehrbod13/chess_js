@@ -19,11 +19,11 @@ export class Board {
   isolated: boolean;
 
   constructor(game: Game) {
+    this.game = game;
     this.blackKing = new King(Piece.SIDES.BLACK, this, 0, 4);
     this.whiteKing = new King(Piece.SIDES.WHITE, this, 7, 4);
     this.board = this.initBoard();
     this.selectedPiece = null;
-    this.game = game;
     this.history = [];
     this.isolated = false;
   }
@@ -86,6 +86,21 @@ export class Board {
   }
 
   getElement() {
+    let flexbox = document.createElement("div");
+    flexbox.classList.add("column-flex");
+
+    // show white captured pieces
+    let whitePoint = 0;
+    let whitecpElem = document.createElement("div");
+    whitecpElem.setAttribute("id", "white_cp");
+    for (let type of this.game.captures[Piece.SIDES.WHITE]) {
+      let cpImg = document.createElement("img");
+      cpImg.src = Piece.getAsset(type, Piece.SIDES.WHITE);
+      whitecpElem.appendChild(cpImg);
+      whitePoint += Piece.getPoint(type);
+    }
+    flexbox.appendChild(whitecpElem);
+
     let elem = document.createElement("div");
     elem.classList.add("board");
     let isWhite = true;
@@ -121,8 +136,11 @@ export class Board {
 
         if (piece !== null) {
           if (piece instanceof King) {
+            // king check
             if (piece.isChecked().length) {
               piece.elem.classList.add("checked");
+
+              // king checkmate
               if (piece.isCheckmated()) {
                 document.getElementById("checkmate__menu")!.style.display =
                   "flex";
@@ -141,12 +159,34 @@ export class Board {
               piece.elem.classList.remove("checked");
             }
           }
+
           square.appendChild(piece.elem);
         }
         elem.appendChild(square);
       }
     }
-    return elem;
+    flexbox.appendChild(elem);
+
+    // show black captured pieces
+    let blackcpElem = document.createElement("div");
+    blackcpElem.setAttribute("id", "black_cp");
+    let blackPoint = 0;
+    for (let type of this.game.captures[Piece.SIDES.BLACK]) {
+      let cpImg = document.createElement("img");
+      cpImg.src = Piece.getAsset(type, Piece.SIDES.BLACK);
+      blackcpElem.appendChild(cpImg);
+      blackPoint += Piece.getPoint(type);
+    }
+    flexbox.appendChild(blackcpElem);
+
+    // show extra point
+    if (whitePoint > blackPoint) {
+      whitecpElem.innerHTML += `+${whitePoint - blackPoint}`;
+    } else if (blackPoint > whitePoint) {
+      blackcpElem.innerHTML += `+${blackPoint - whitePoint}`;
+    }
+
+    return flexbox;
   }
 
   selectPiece(piece: Piece) {
@@ -178,6 +218,12 @@ export class Board {
             move.isCheck = true;
             break;
           }
+        }
+
+        if (move.isCapture()) {
+          let target: Piece = move.square as Piece;
+          target.isCaptured = true;
+          this.game.captures[target.side].push(target.type);
         }
 
         this.history.push(move);

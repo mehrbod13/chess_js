@@ -34,6 +34,10 @@ export class Move {
     this.isPromotion = isPromotion;
   }
 
+  isCapture(): boolean {
+    return this.square !== null;
+  }
+
   getNotation(): string {
     if (this.isCastle) {
       if (this.to.col === 6) {
@@ -51,7 +55,7 @@ export class Move {
     }
     notation += symbol;
 
-    if (this.square !== null) {
+    if (this.isCapture()) {
       if (this.piece instanceof Pawn) {
         notation += String.fromCharCode(97 + this.from.col);
       }

@@ -28,6 +28,11 @@ body {
   overflow: hidden;
 }
 
+.column-flex {
+  display: flex;
+  flex-direction: column;
+}
+
 #game {
   display: flex;
   gap: 15px;
@@ -103,6 +108,7 @@ body {
   width: fit-content;
   height: 100px;
   overflow-y: scroll;
+  padding-top: calc(var(--square-size) / 3);
 }
 
 .promo {
@@ -166,9 +172,26 @@ body {
   box-shadow: 0px 3px 0px 0px var(--dark-green);
 }
 
+#black_cp,
+#white_cp {
+  display: flex;
+  user-select: none;
+  font-weight: bold;
+  height: calc(var(--square-size) / 3);
+}
+
+#black_cp img,
+#white_cp img {
+  width: calc(var(--square-size) / 3);
+  height: calc(var(--square-size) / 3);
+}
+
 @media only screen and (max-width: 1000px) {
   #game {
     flex-direction: column;
+  }
+  .history {
+    padding-top: 0;
   }
 }
 

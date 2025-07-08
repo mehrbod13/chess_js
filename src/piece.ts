@@ -17,6 +17,22 @@ export class Piece {
     KING: "King",
   } as const;
 
+  static getPoint(type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE]): number {
+    switch (type) {
+      case Piece.TYPE.PAWN:
+        return 1;
+      case Piece.TYPE.BISHOP:
+      case Piece.TYPE.KNIGHT:
+        return 3;
+      case Piece.TYPE.ROOK:
+        return 5;
+      case Piece.TYPE.QUEEN:
+        return 9;
+      default:
+        return 0;
+    }
+  }
+
   static getAsset(
     type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE],
     side: (typeof Piece.SIDES)[keyof typeof Piece.SIDES]
@@ -31,6 +47,7 @@ export class Piece {
   row: number;
   elem: Element;
   isMoved: Boolean;
+  isCaptured: Boolean;
 
   constructor(
     type: (typeof Piece.TYPE)[keyof typeof Piece.TYPE],
@@ -49,6 +66,11 @@ export class Piece {
 
     // move flag needed for some pieces (pawn,king,rook)
     this.isMoved = false;
+
+    // if piece go out of board this flag will be true
+    this.isCaptured = false;
+
+    this.board.game.pieces[this.side].push(this);
   }
 
   getPosition(): [number, number] {

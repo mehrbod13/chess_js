@@ -106,6 +106,14 @@ export class King extends Piece {
   }
 
   isCheckmated(): boolean {
-    return this.isChecked().length > 0 && this.getValidMoves().length === 0;
+    // king can move
+    if (this.getValidMoves().length > 0) return false;
+
+    // any king side piece can remove check
+    for (let piece of this.board.game.pieces[this.side]) {
+      if (piece.getValidMoves().length > 0) return false;
+    }
+
+    return true;
   }
 }

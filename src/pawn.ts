@@ -78,6 +78,7 @@ export class Pawn extends Piece {
         console.error("promotion piece type is invalid!");
         return;
     }
+    this.isCaptured = true;
     promoPiece!.isMoved = true;
     this.board.board[this.row][this.col] = promoPiece!;
     this.board.isolated = false;
